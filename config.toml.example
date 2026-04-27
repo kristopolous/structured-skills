@@ -1,0 +1,8 @@
+[llm]
+model = "gpt-4o"
+base_url = "https://api.openai.com/v1"
+api_key = "sk-..."
+
+# Optional overrides
+# [decoder]
+# model = "gpt-4-mini"

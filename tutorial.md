@@ -110,16 +110,19 @@ The standard library includes:
 
 ## 7. Configuration
 
-Edit `config.toml` to connect to your LLM provider.
+Structured Skills requires a `config.toml` file in the root directory. Use the provided template to get started:
+
+```bash
+cp config.toml.example config.toml
+```
+
+Then edit `config.toml` to connect to your LLM provider:
+
 ```toml
-[decoder]
+[llm]
 model = "gpt-4o"
 base_url = "https://api.openai.com/v1"
 api_key = "your-key"
-
-[inference]
-# You can use a different model for inference than for decoding
-model = "gpt-4o"
 ```
 If you are using a local model (like `llama.cpp` or `Ollama`), set the `base_url` to your local endpoint and leave the `api_key` blank.
 

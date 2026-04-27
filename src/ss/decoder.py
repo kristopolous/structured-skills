@@ -7,8 +7,8 @@ from .config import load_config
 from .prompts import DECODER_PROMPT
 
 class Decoder:
-    def __init__(self):
-        self.config = load_config()["decoder"]
+    def __init__(self, config_path: str = "config.toml"):
+        self.config = load_config(config_path)["decoder"]
         self.client = OpenAI(
             base_url=self.config["base_url"],
             api_key=self.config["api_key"] or "none"

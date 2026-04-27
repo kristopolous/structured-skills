@@ -6,7 +6,7 @@ from .mcp import MCPManager
 from .config import load_config
 
 class VM:
-    def __init__(self):
+    def __init__(self, config_path: str = "config.toml"):
         self.registers: Dict[str, Any] = {}
         self.data_stack: List[Any] = []
         self.call_stack: List[Dict[str, Any]] = []
@@ -18,7 +18,7 @@ class VM:
         self.skills: Dict[str, Dict[str, Any]] = {}
         self.jump_targets: Dict[int, int] = {} # ip -> target_ip
         self.mcp = MCPManager()
-        self.config = load_config()["inference"]
+        self.config = load_config(config_path)["inference"]
         self.client = OpenAI(
             base_url=self.config["base_url"],
             api_key=self.config["api_key"] or "none"

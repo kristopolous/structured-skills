@@ -6,18 +6,28 @@ from .vm import VM
 
 def main():
     parser = argparse.ArgumentParser(description="Structured Skills VM")
-    parser.add_argument("file", help="The .ss file to run")
-    parser.add_argument("--config", default="config.toml", help="Path to config file")
+    parser.add_argument("file", nargs="?", help="The .ss file to run")
+    parser.add_argument("--config", default="config.toml", help="Path to config file (default: %(default)s)")
+    
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(1)
+        
     args = parser.parse_args()
+
+    if not args.file:
+        parser.print_help()
+        sys.exit(1)
 
     try:
         with open(args.file, "r") as f:
             lines = f.readlines()
     except FileNotFoundError:
-        print(f"Error: File {args.file} not found.")
+        print(f"Error: File {args.file} not found.\n")
+        parser.print_help()
         sys.exit(1)
 
-    decoder = Decoder()
+    decoder = Decoder(config_path=args.config)
     
     program = []
     imports = []
@@ -37,7 +47,7 @@ def main():
         opcodes = decoder.decode_line(line, imports_context=imports_context)
         program.extend(opcodes)
 
-    vm = VM()
+    vm = VM(config_path=args.config)
     vm.load_program(program)
     vm.run()
 
